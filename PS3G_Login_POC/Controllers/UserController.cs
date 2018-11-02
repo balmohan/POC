@@ -61,11 +61,11 @@
                 try
                 {
                     _userManager.Register(user);
-                    return RedirectToAction("Dashboard");
+                    TempData["message"] = "Registration has been successful,Please login";
+                    return RedirectToAction("login");
                 }
-                catch (System.Exception ex)
+                catch ()
                 {
-                    ViewBag.error = ex.Message;
                     return View("error");
                 }
             }

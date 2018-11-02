@@ -31,8 +31,13 @@
             <input type="submit" value="Login" class="btn btn-default" />
         </div>
     </div>
-    
-    
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["message"]
+        </div>
+    }
+
     @Html.ActionLink("Register", "Register")
 </div>
 }
