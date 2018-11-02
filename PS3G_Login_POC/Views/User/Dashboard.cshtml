@@ -1,0 +1,33 @@
+﻿@model PS3G_Login_POC.Models.User
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Session["UserName"].ToString()
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Session["Password"].ToString()
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Logout", "Logout")
+</p>
