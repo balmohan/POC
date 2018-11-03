@@ -109,7 +109,7 @@ namespace PS3G_Login_POC.Controllers
                 return RedirectToAction("Dashboard");
             }
 
-            ModelState.AddModelError("error", "Invalid Username or Password");
+            TempData["error"] = "Invalid Login details";
             return View("Login");
         }
 

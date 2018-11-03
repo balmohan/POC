@@ -33,9 +33,16 @@
     </div>
     @if (TempData["error"] != null)
     {
-        @Html.Raw("<script>alert("+"'"+@TempData["error"]+"'"+")</script>")
-       
+        @Html.Raw("<script>alert(" + "'" + @TempData["error"] + "'" + ")</script>")
+
     }
+
+    @if (TempData["message"] != null)
+    {
+        @Html.Raw("<script>alert(" + "'" + @TempData["message"] + "'" + ")</script>")
+
+    }
+
     @Html.ActionLink("Register", "Register")
 </div>
 }
