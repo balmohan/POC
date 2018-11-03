@@ -1,9 +1,9 @@
-﻿namespace PS3G_Login_POC.Controllers
-{
-    using PS3G_Login_POC.Manager;
-    using PS3G_Login_POC.Models;
-    using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using PS3G_Login_POC.Manager;
+using PS3G_Login_POC.Models;
 
+namespace PS3G_Login_POC.Controllers
+{
     /// <summary>
     /// User Management controller
     /// </summary>
@@ -12,10 +12,10 @@
         /// <summary>
         /// Defines the _userManager for UserManager Class
         /// </summary>
-        private IUserManager _userManager;
+        private readonly IUserManager _userManager;
 
         /// <summary>
-        /// Initializes a new instance of the UserMananger class.
+        /// Initializes a new instance of the UserManager class.
         /// </summary>
         public UserController()
         {
@@ -38,14 +38,12 @@
         [HttpGet]
         public ActionResult Register()
         {
-            if (this.Session["UserName"] != null)
+            if (Session["UserName"] != null)
             {
                 return RedirectToAction("Dashboard");
             }
-            else
-            {
-                return View();
-            }
+
+            return View();
         }
 
         /// <summary>
@@ -64,7 +62,7 @@
                     TempData["message"] = "Registration has been successful,Please login";
                     return RedirectToAction("login");
                 }
-                catch ()
+                catch
                 {
                     return View("error");
                 }
@@ -79,14 +77,12 @@
         [HttpGet]
         public ActionResult Login()
         {
-            if (this.Session["UserName"] != null)
+            if (Session["UserName"] != null)
             {
                 return RedirectToAction("Dashboard");
             }
-            else
-            {
-                return View();
-            }
+
+            return View();
         }
 
         /// <summary>
@@ -99,15 +95,13 @@
         {
             if (_userManager.Login(user))
             {
-                this.Session["UserName"] = user.UserName;
-                this.Session["Password"] = user.Password;
+                Session["UserName"] = user.UserName;
+                Session["Password"] = user.Password;
                 return RedirectToAction("Dashboard");
             }
-            else
-            {
-                ModelState.AddModelError("error", "Invalid Usrname or Password");
-                return View("Login");
-            }
+
+            ModelState.AddModelError("error", "Invalid Username or Password");
+            return View("Login");
         }
 
         /// <summary>
@@ -117,14 +111,12 @@
         [HttpGet]
         public ActionResult Dashboard()
         {
-            if (this.Session["Username"] == null)
+            if (Session["Username"] == null)
             {
                 return RedirectToAction("login");
             }
-            else
-            {
-                return View();
-            }
+
+            return View();
         }
 
         /// <summary>
@@ -133,7 +125,7 @@
         /// <returns>The <see cref="ActionResult"/></returns>
         public ActionResult Logout()
         {
-            this.Session.Clear();
+            Session.Clear();
             return View("Login");
         }
     }

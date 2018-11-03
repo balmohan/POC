@@ -1,6 +1,6 @@
 ﻿namespace PS3G_Login_POC.Manager
 {
-    using PS3G_Login_POC.Models;
+    using Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,7 +13,7 @@
         /// <summary>
         /// Defines the _users
         /// </summary>
-        private static IList<User> _users;
+        private static readonly IList<User> _users;
 
         /// <summary>
         /// Initializes static members of the <see cref="UserManager"/> class.
