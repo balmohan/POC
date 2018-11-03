@@ -13,7 +13,7 @@
         /// <summary>
         /// Defines the _users
         /// </summary>
-        private static readonly IList<User> _users;
+        private static IList<User> _users;
 
         /// <summary>
         /// Initializes static members of the <see cref="UserManager"/> class.
@@ -30,7 +30,9 @@
         /// <returns>The <see cref="bool"/></returns>
         public bool Login(User user)
         {
-            if (_users.Select(u => u.UserName).Contains(user.UserName) && _users.Select(p => p.Password).Contains(user.Password))
+            var res = _users.Select(u => u)
+                .FirstOrDefault(us => us.UserName == user.UserName && us.Password == user.Password);
+            if (res!=null && res.Equals(user))
             {
                 return true;
             }
@@ -44,11 +46,20 @@
         /// The Register
         /// </summary>
         /// <param name="user">The user<see cref="User"/></param>
-        public void Register(User user)
+        public User Register(User user)
         {
             try
             {
-                _users.Add(user);
+                if (_users != null && !_users.Select(u=>u.UserName).Contains(user.UserName))
+                {
+                    _users.Add(user);
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+
             }
             catch (Exception ex)
             {

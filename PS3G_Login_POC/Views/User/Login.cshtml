@@ -31,13 +31,11 @@
             <input type="submit" value="Login" class="btn btn-default" />
         </div>
     </div>
-    @if (TempData["message"] != null)
+    @if (TempData["error"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["message"]
-        </div>
+        @Html.Raw("<script>alert("+"'"+@TempData["error"]+"'"+")</script>")
+       
     }
-
     @Html.ActionLink("Register", "Register")
 </div>
 }

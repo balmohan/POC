@@ -58,9 +58,18 @@ namespace PS3G_Login_POC.Controllers
             {
                 try
                 {
-                    _userManager.Register(user);
-                    TempData["message"] = "Registration has been successful,Please login";
+                    if (_userManager.Register(user) !=null)
+                    {
+                        TempData["message"] = "Registration has been successful,Please login";
+                        
+                    }
+                    else
+                    {
+                        TempData["error"] = "User already exist,Please login";
+                    }
                     return RedirectToAction("login");
+
+
                 }
                 catch
                 {
