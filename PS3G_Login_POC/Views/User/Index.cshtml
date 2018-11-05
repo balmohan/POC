@@ -1,0 +1,13 @@
+﻿
+<div id="mainContainer">
+    @if (Session["UserName"] != null)
+    {
+        @RenderPage("Dashboard.cshtml");
+    }
+    else
+    {
+        @RenderPage("Login.cshtml");
+    }
+</div>
+
+

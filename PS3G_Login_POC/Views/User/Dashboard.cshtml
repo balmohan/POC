@@ -29,5 +29,11 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Logout", "Logout")
+    @Ajax.ActionLink("Logout","Logout","User",new AjaxOptions
+    {
+        UpdateTargetId = "mainContainer",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "Get"
+
+    })
 </p>

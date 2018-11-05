@@ -1,10 +1,15 @@
 ﻿@model PS3G_Login_POC.Models.User
-
 @{
     ViewBag.Title = "Register";
 }
 
-@using (Html.BeginForm()) 
+@using (Ajax.BeginForm("Register", "User", new AjaxOptions  
+{  
+    InsertionMode = InsertionMode.Replace,  
+    HttpMethod = "POST",  
+    UpdateTargetId = "mainContainer",
+    OnFailure = "handleError(0)"
+})) 
 {
     @Html.AntiForgeryToken()
     
@@ -30,10 +35,17 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" value="Create" class="btn btn-success" />
         </div>
     </div>
-    @Html.ActionLink("Login", "Login")
+    @Ajax.ActionLink("Login","Login","User",new AjaxOptions
+{
+    UpdateTargetId = "mainContainer",
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "Get",
+    OnComplete = "complete()"
+
+})
 </div>
 }
 

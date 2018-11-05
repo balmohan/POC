@@ -2,14 +2,20 @@
 @{
     ViewBag.Title = "Login";
 }
-@using (Html.BeginForm("Login","User"))
+@using (Ajax.BeginForm("Login", "User", new AjaxOptions
+{
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "POST",
+    UpdateTargetId = "mainContainer",
+    OnFailure = "handleError(1)"
+}))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
     <h4>Login</h4>
     <hr />
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -31,18 +37,14 @@
             <input type="submit" value="Login" class="btn btn-default" />
         </div>
     </div>
-    @if (TempData["error"] != null)
+
+
+
+    @Ajax.ActionLink("Register","Register","User",new AjaxOptions
     {
-        @Html.Raw("<script>alert(" + "'" + @TempData["error"] + "'" + ")</script>")
-
-    }
-
-    @if (TempData["message"] != null)
-    {
-        @Html.Raw("<script>alert(" + "'" + @TempData["message"] + "'" + ")</script>")
-
-    }
-
-    @Html.ActionLink("Register", "Register")
+        UpdateTargetId = "mainContainer",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "Get"
+    })
 </div>
 }

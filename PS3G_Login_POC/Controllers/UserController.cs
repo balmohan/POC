@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Net;
+using System.Web.Mvc;
 using PS3G_Login_POC.Manager;
 using PS3G_Login_POC.Models;
 
@@ -28,7 +29,8 @@ namespace PS3G_Login_POC.Controllers
         /// <returns>The <see cref="ActionResult"/></returns>
         public ActionResult Index()
         {
-            return RedirectToAction("Register");
+            return View();
+            //return RedirectToAction("Register");
         }
 
         /// <summary>
@@ -43,7 +45,7 @@ namespace PS3G_Login_POC.Controllers
                 return RedirectToAction("Dashboard");
             }
 
-            return View();
+            return PartialView();
         }
 
         /// <summary>
@@ -60,20 +62,19 @@ namespace PS3G_Login_POC.Controllers
                 {
                     if (_userManager.Register(user) !=null)
                     {
-                        TempData["message"] = "Registration has been successful,Please login";
-                        
+                        return PartialView("Login");
+
                     }
                     else
                     {
-                        TempData["error"] = "User already exist,Please login";
-                    }
-                    return RedirectToAction("login");
+                        return new HttpStatusCodeResult(HttpStatusCode.Conflict, "User Already Exist,Please login");
 
+                    }
 
                 }
                 catch
                 {
-                    return View("error");
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
             }
             return RedirectToAction("Login");
@@ -88,10 +89,10 @@ namespace PS3G_Login_POC.Controllers
         {
             if (Session["UserName"] != null)
             {
-                return RedirectToAction("Dashboard");
+                return PartialView("Dashboard");
             }
 
-            return View();
+            return PartialView();
         }
 
         /// <summary>
@@ -108,9 +109,7 @@ namespace PS3G_Login_POC.Controllers
                 Session["Password"] = user.Password;
                 return RedirectToAction("Dashboard");
             }
-
-            TempData["error"] = "Invalid Login details";
-            return View("Login");
+            return new HttpStatusCodeResult(HttpStatusCode.Forbidden,"Login Failed");
         }
 
         /// <summary>
@@ -135,7 +134,7 @@ namespace PS3G_Login_POC.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
-            return View("Login");
+            return PartialView("Index");
         }
     }
 }
